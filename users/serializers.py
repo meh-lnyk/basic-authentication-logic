@@ -25,3 +25,10 @@ class RegistrationSerializer(serializers.Serializer):
             patronymic=validated_data.get('patronymic', '')
         )
         return user
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'patronymic', 'email', 'created_at', 'is_active'] # doesn't show password for security
+        read_only_fields = ['id', 'created_at', 'is_active']
