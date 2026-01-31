@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from .authentication import JWTAuthentication
 from .serializers import RegistrationSerializer, UserProfileSerializer
 from users.models import User
 from datetime import timedelta, datetime, timezone
@@ -40,3 +41,10 @@ class ProfileView(APIView):
     def get(self, request):
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
+
+
+class LogoutView(APIView):
+    authentication_classes = [JWTAuthentication]
+
+    def post(self, request):
+        return Response({"Успешный выход из аккаунта"}, status=status.HTTP_200_OK)
