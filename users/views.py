@@ -48,3 +48,18 @@ class LogoutView(APIView):
 
     def post(self, request):
         return Response({"Успешный выход из аккаунта"}, status=status.HTTP_200_OK)
+
+
+class SoftDeleteView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        user.is_active = False
+        user.save(update_fields=['is_active'])
+
+        return Response(
+            {"Аккаунт успешно удален. Выход выполнен."},
+            status=status.HTTP_200_OK
+        )
